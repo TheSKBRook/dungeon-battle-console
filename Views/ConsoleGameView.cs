@@ -24,7 +24,7 @@ namespace ConsoleApp1.Views
             ShowGameMessage("Бонус до атаки: " + hero.AttackBonus);
             ShowGameMessage("Золото: " + hero.Gold);
             ShowGameMessage("Інвентар: ");
-            foreach (Item item in hero.Inventory)
+            foreach (Item item in hero.GetInventorySortedByName())
             {
                 ShowGameMessage("- " + item.Name);
             }

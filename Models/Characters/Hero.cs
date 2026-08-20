@@ -92,5 +92,9 @@ namespace ConsoleApp1.Models.Characters
         {
             return inventory.FirstOrDefault(item => item.Name == name);
         }
+        public IEnumerable<Item> GetInventorySortedByName()
+        {
+            return inventory.OrderBy(item => item.Name);
+        }
     }
 }
