@@ -31,7 +31,8 @@ namespace ConsoleApp1.Controllers
                 string? input = _view.ReadInput();
                 if (!int.TryParse(input, out int inputNumber))
                 {
-                    _view.ShowGameMessage("\nНевірний ввід.");
+                    _view.ShowGameMessage("\nНевірний ввід.\nНатисніть Enter, щоб продовжити");
+                    _view.ReadInput();
                     continue;
                 }
 
@@ -60,7 +61,8 @@ namespace ConsoleApp1.Controllers
                         isRunning = false;
                         break;
                     default:
-                        _view.ShowGameMessage("\nНемає такого пункту меню.");
+                        _view.ShowGameMessage("\nНемає такого пункту меню.\nНатисніть Enter, щоб продовжити");
+                        _view.ReadInput();
                         continue;
                 }
             }
@@ -102,7 +104,7 @@ namespace ConsoleApp1.Controllers
                     action = _view.ReadInput();
                     if (!int.TryParse(action, out int actionNumber))
                     {
-                        _view.ShowGameMessage("Введіть число для дії: ");
+                        _view.AddBattleLog("Введіть число для дії: ");
                         continue;
                     }
 
@@ -148,7 +150,7 @@ namespace ConsoleApp1.Controllers
                                 _view.ShowHealedAmount(hero, restored);
                                 break;
                             }
-                            _view.ShowGameMessage("\n" + item.Name + " не можна використати.");
+                            _view.AddBattleLog("\n" + item.Name + " не можна використати.");
                             continue;
                         case PlayerAction.EquipItem: // Екіпірувати предмет
                             Item? selectedItem = SelectInventoryItem(hero);
@@ -166,13 +168,13 @@ namespace ConsoleApp1.Controllers
                                 }
                                 else
                                 {
-                                    _view.ShowGameMessage("\n" + selectedItem.Name + " вже екіпірований або не можна екіпірувати.");
+                                    _view.AddBattleLog("\n" + selectedItem.Name + " вже екіпірований або не можна екіпірувати.");
                                     continue;
                                 }
                             }
                             else
                             {
-                                _view.ShowGameMessage("\n" + selectedItem.Name + " не можна екіпірувати.");
+                                _view.AddBattleLog("\n" + selectedItem.Name + " не можна екіпірувати.");
                                 continue;
                             }
                         case PlayerAction.SaveAndExit: // зберегти і вийти
@@ -180,7 +182,7 @@ namespace ConsoleApp1.Controllers
                             SaveGameToFile(gameSession);
                             break;
                         default:
-                            _view.ShowGameMessage("\nНевірна дія. Спробуйте ще раз.");
+                            _view.AddBattleLog("\nНевірна дія. Спробуйте ще раз.");
                             continue;
                     }
                     if (hasEscaped || hasSaved)
@@ -247,7 +249,7 @@ namespace ConsoleApp1.Controllers
         {
             if (hero.Inventory.Count == 0)
             {
-                _view.ShowGameMessage("Інвентар порожній.");
+                _view.AddBattleLog("Інвентар порожній.");
                 return null;
             }
             _view.ShowNumberedInventory(hero);
@@ -256,13 +258,14 @@ namespace ConsoleApp1.Controllers
             string? inputNumber = _view.ReadInput();
             if (!int.TryParse(inputNumber, out int number))
             {
-                _view.ShowGameMessage("Невірний ввід");
+                _view.ShowGameMessage("Невірний ввід\nНатисніть Enter, щоб продовжити");
+                _view.ReadInput();
                 return null;
             }
             int itemIndex = number - 1;
             if (itemIndex < 0 || itemIndex >= hero.Inventory.Count)
             {
-                _view.ShowGameMessage("Немає предмету з таким номером.");
+                _view.AddBattleLog("Немає предмету з таким номером.");
                 return null;
             }
 
