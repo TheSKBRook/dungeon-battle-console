@@ -28,6 +28,18 @@ namespace ConsoleApp1.Views
             {
                 ShowGameMessage("- " + item.Name);
             }
+            if (hero.GetUsableItems().Any())
+            {
+                ShowGameMessage("Предмети, що можна використати");
+                foreach (Item item in hero.GetUsableItems())
+                {
+                    ShowGameMessage("- " + item.Name);
+                }
+            }
+            else
+            {
+                ShowGameMessage("Предметів для використання немає");
+            }
             if (hero.EquippedItem != null)
             {
                 ShowGameMessage("Екіпіруваний предмет: " + hero.EquippedItem.Name);

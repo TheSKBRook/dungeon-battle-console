@@ -84,5 +84,9 @@ namespace ConsoleApp1.Models.Characters
         {
             return baseDamage + AttackBonus;
         }
+        public IEnumerable<Item> GetUsableItems()
+        {
+            return inventory.Where(item => item is IUsable);
+        }
     }
 }
