@@ -88,5 +88,9 @@ namespace ConsoleApp1.Models.Characters
         {
             return inventory.Where(item => item is IUsable);
         }
+        public Item? FindItemByNmae(string name)
+        {
+            return inventory.FirstOrDefault(item => item.Name == name);
+        }
     }
 }
