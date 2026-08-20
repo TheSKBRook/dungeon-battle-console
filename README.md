@@ -1,21 +1,20 @@
 # Dungeon Battle Console Game
+This project is a console RPG battle game built with C#.
 
-Цей проект консольна RPG-битва на C#
+## Game Features:
+1. Turn-based series of battles that continues until the hero dies, runs away, or saves the game.
+2. Critical hits
+3. Various enemies with random spawning
+4. Inventory system
+5. Items
+6. Item usage
+7. Weapon equipment system
+8. Saving game state to a JSON file
+9. Main menu with an exit option
+10. Loading saved games
 
-В можливості гри входить: 
-1. Покрокова серія боїв триває, доки герой не загине, не втече або не збереже гру.
-2. Критичні удари
-3. Різні вороги з їх випадковою появою
-4. Реалізація інвентарю
-5. Предмети
-6. Використання предметів
-7. Екіпірування предметів
-8. Збереження гри в файл JSON
-9. Меню з виходом з гри
-10. Завантаження збереження
+## Technologies Used:
+C#, OOP, JSON, MVC-like architecture
 
-## Використанні технології:
-C#, OOP, JSON, MVC - подібна структура
-
-## Щоб запустити гру:
-Для запуску потрібні Visual Studio та .NET 8 SDK. Потрібно відкрити ConsoleApp1.sln у Visual Studio й натиснути F5
+## How to Run the Game:
+To run the game, you need Visual Studio and the .NET 8 SDK. Open ConsoleApp1.sln in Visual Studio and press F5.
