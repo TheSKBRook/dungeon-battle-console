@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1.Models.Characters
+﻿using System.Linq.Expressions;
+
+namespace ConsoleApp1.Models.Characters
 {
     internal class Character
     {
@@ -13,6 +15,11 @@
         }
         public void TakeDamage(int damage)
         {
+            if (damage < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(damage));
+            }
+
             Health -= damage;
             if (Health < 0)
             {
