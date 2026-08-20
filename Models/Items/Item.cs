@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1.Models.Items
+﻿namespace DungeonBattleConsoleGame.Models.Items
 {
     abstract class Item
     {

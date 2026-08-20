@@ -1,7 +1,7 @@
-﻿using ConsoleApp1.Models.Characters;
-using ConsoleApp1.Models.Items;
+﻿using DungeonBattleConsoleGame.Models.Characters;
+using DungeonBattleConsoleGame.Models.Items;
 
-namespace ConsoleApp1.Views
+namespace DungeonBattleConsoleGame.Views
 {
 
     internal class ConsoleGameView

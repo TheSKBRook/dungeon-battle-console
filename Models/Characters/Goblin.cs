@@ -1,6 +1,6 @@
-﻿using ConsoleApp1.Models.Items;
+﻿using DungeonBattleConsoleGame.Models.Items;
 
-namespace ConsoleApp1.Models.Characters
+namespace DungeonBattleConsoleGame.Models.Characters
 {
     internal class Goblin : Enemy
     {

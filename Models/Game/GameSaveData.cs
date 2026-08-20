@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1.Models.Game
+﻿namespace DungeonBattleConsoleGame.Models.Game
 {
     internal class GameSaveData
     {

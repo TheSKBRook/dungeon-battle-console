@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace ConsoleApp1.Models.Characters
+namespace DungeonBattleConsoleGame.Models.Characters
 {
     internal class Character
     {
