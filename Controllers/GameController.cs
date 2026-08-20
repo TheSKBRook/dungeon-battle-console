@@ -98,7 +98,7 @@ namespace ConsoleApp1.Controllers
                     _view.ShowBattleScreen(gameSession.Hero, gameSession.CurrentEnemy, gameSession.Round);
 
                     /* МЕНЮ */
-                    
+
                     action = _view.ReadInput();
                     if (!int.TryParse(action, out int actionNumber))
                     {
@@ -411,10 +411,9 @@ namespace ConsoleApp1.Controllers
                 return null;
             }
 
-            string json = File.ReadAllText(filePath);
-
             try
             {
+                string json = File.ReadAllText(filePath);
                 GameSaveData? gameSaveData = JsonSerializer.Deserialize<GameSaveData>(json);
 
                 if (gameSaveData == null)
@@ -422,6 +421,11 @@ namespace ConsoleApp1.Controllers
                     return null;
                 }
                 return CreateGameSessionFromSaveData(gameSaveData);
+
+            }
+            catch (IOException)
+            {
+                return null;
             }
             catch (JsonException)
             {
