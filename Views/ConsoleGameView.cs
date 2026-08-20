@@ -60,9 +60,11 @@ namespace ConsoleApp1.Views
         }
         public void ShowNumberedInventory(Hero hero)
         {
-            for (int i = 0; i < hero.Inventory.Count; i++)
+            int itemNumber = 1;
+            foreach (string item in hero.GetInventoryItemNames())
             {
-                ShowGameMessage((i + 1) + ". " + hero.Inventory[i].Name);
+                ShowGameMessage(itemNumber + ". " + item);
+                itemNumber++;
             }
         }
         public void ShowActionMenu()
