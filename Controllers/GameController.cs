@@ -46,7 +46,8 @@ namespace ConsoleApp1.Controllers
                         GameSession? loadedSession = LoadGameFromFile();
                         if (loadedSession == null)
                         {
-                            _view.ShowGameMessage("Немає збереження");
+                            _view.ShowGameMessage("Немає збереження.\nНатисніть Enter, щоб продовжити");
+                            _view.ReadInput();
                             break;
                         }
                         else
@@ -412,14 +413,20 @@ namespace ConsoleApp1.Controllers
 
             string json = File.ReadAllText(filePath);
 
-            GameSaveData? gameSaveData = JsonSerializer.Deserialize<GameSaveData>(json);
+            try
+            {
+                GameSaveData? gameSaveData = JsonSerializer.Deserialize<GameSaveData>(json);
 
-            if (gameSaveData == null)
+                if (gameSaveData == null)
+                {
+                    return null;
+                }
+                return CreateGameSessionFromSaveData(gameSaveData);
+            }
+            catch (JsonException)
             {
                 return null;
             }
-
-            return CreateGameSessionFromSaveData(gameSaveData);
         }
     }
 }
