@@ -1,6 +1,6 @@
-﻿using ConsoleApp1.Models.Characters;
+﻿using DungeonBattleConsoleGame.Models.Characters;
 
-namespace ConsoleApp1.Models.Items
+namespace DungeonBattleConsoleGame.Models.Items
 {
     internal class Sword : Item, IEquippable
     {

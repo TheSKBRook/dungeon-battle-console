@@ -1,6 +1,6 @@
-﻿using ConsoleApp1;
-using ConsoleApp1.Controllers;
-using ConsoleApp1.Views;
+﻿using DungeonBattleConsoleGame;
+using DungeonBattleConsoleGame.Controllers;
+using DungeonBattleConsoleGame.Views;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 

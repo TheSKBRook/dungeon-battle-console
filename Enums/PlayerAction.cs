@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1.Enums
+﻿namespace DungeonBattleConsoleGame.Enums
 {
     internal enum PlayerAction
     {

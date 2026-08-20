@@ -1,12 +1,12 @@
-﻿using ConsoleApp1.Enums;
-using ConsoleApp1.Models.Characters;
-using ConsoleApp1.Models.Game;
-using ConsoleApp1.Models.Items;
-using ConsoleApp1.Views;
+﻿using DungeonBattleConsoleGame.Enums;
+using DungeonBattleConsoleGame.Models.Characters;
+using DungeonBattleConsoleGame.Models.Game;
+using DungeonBattleConsoleGame.Models.Items;
+using DungeonBattleConsoleGame.Views;
 using System.Data;
 using System.Text.Json;
 
-namespace ConsoleApp1.Controllers
+namespace DungeonBattleConsoleGame.Controllers
 {
     internal class GameController
     {

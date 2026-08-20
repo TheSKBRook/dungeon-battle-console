@@ -1,6 +1,6 @@
-﻿using ConsoleApp1.Models.Characters;
+﻿using DungeonBattleConsoleGame.Models.Characters;
 
-namespace ConsoleApp1.Models.Game
+namespace DungeonBattleConsoleGame.Models.Game
 {
     internal class GameSession
     {
