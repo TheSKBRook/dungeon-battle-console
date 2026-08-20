@@ -26,6 +26,10 @@ namespace ConsoleApp1.Models.Characters
         }
         public int Heal(int amount)
         {
+            if (amount < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount));
+            }
             int healthBefore = Health;
             Health += amount;
             if (Health > MaxHealth)
