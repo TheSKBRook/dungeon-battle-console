@@ -28,10 +28,11 @@ namespace ConsoleApp1.Views
             {
                 ShowGameMessage("- " + item.Name);
             }
-            if (hero.GetUsableItems().Any())
+            List<Item> usableItems = hero.GetUsableItems().ToList();
+            if (usableItems.Any())
             {
                 ShowGameMessage("Предмети, що можна використати");
-                foreach (Item item in hero.GetUsableItems())
+                foreach (Item item in usableItems)
                 {
                     ShowGameMessage("- " + item.Name);
                 }
