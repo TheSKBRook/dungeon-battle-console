@@ -35,5 +35,16 @@ namespace DungeonBattleConsoleGame.Tests
             Assert.AreEqual(5, restoredHealth);
             Assert.AreEqual(hero.MaxHealth, hero.Health);
         }
+
+        [TestMethod]
+        public void TakeDamage_WhenDamageIsNegative_ThrowsException()
+        {
+            // Arrange
+            Hero hero = new Hero("Тестовий герой");
+
+            // Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => hero.TakeDamage(-1));
+
+        }
     }
 }
