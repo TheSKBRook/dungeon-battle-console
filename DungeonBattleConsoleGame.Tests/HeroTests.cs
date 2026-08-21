@@ -89,5 +89,25 @@ namespace DungeonBattleConsoleGame.Tests
             // Assert
             Assert.AreEqual(expectedHealth, hero.Health);
         }
+
+        [DataTestMethod]
+        [DataRow(5, 10)]
+        [DataRow(10, 15)]
+        [DataRow(20, 25)]
+        public void GetFullDamage_WhenWeaponIsEquipped_AddsAttackBonus(int baseDamage, int expectedDamage)
+        {
+            // Arrange
+            Hero hero = new Hero("Тестовий герой");
+            Sword sword = new Sword("Тестовий меч", 5);
+            hero.AddItem(sword);
+            hero.EquipItem(sword);
+
+            // Act
+            int fullDamage = hero.GetFullDamage(baseDamage);
+
+            // Assert
+            Assert.AreEqual(expectedDamage, fullDamage);
+
+        }
     }
 }
