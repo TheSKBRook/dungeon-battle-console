@@ -14,7 +14,7 @@ This project is a console RPG battle game built with C#.
 10. Loading saved games
 
 ## Technologies Used:
-C#, OOP, JSON, MVC-like architecture, MSTest`s  
+C#, OOP, JSON, MVC-like architecture, MSTest
 
 ## How to Run the Game:
 To run the game, you need Visual Studio and the .NET 8 SDK. Open DungeonBattleConsoleGame.sln in Visual Studio and press F5.
