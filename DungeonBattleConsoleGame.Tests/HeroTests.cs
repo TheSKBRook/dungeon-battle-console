@@ -44,7 +44,16 @@ namespace DungeonBattleConsoleGame.Tests
 
             // Assert
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => hero.TakeDamage(-1));
+        }
 
+        [TestMethod]
+        public void Heal_WhenAmountIsNegative_ThrowsException()
+        {
+            // Arange
+            Hero hero = new Hero("Тестовий герой");
+
+            // Asset
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => hero.Heal(-1));
         }
     }
 }
