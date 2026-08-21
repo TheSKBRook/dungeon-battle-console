@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace DungeonBattleConsoleGame.Models.Characters
+﻿namespace DungeonBattleConsoleGame.Models.Characters
 {
     internal class Character
     {

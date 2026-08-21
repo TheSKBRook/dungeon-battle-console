@@ -3,7 +3,6 @@ using DungeonBattleConsoleGame.Models.Characters;
 using DungeonBattleConsoleGame.Models.Game;
 using DungeonBattleConsoleGame.Models.Items;
 using DungeonBattleConsoleGame.Views;
-using System.Data;
 using System.Text.Json;
 
 namespace DungeonBattleConsoleGame.Controllers
@@ -192,6 +191,7 @@ namespace DungeonBattleConsoleGame.Controllers
 
                     if (!enemy.IsAlive())
                     {
+                        gameSession.RegisterEnemyDefeat(enemy.Name);
                         _view.ShowEnemyDefeated(enemy);
                         hero.AddGold(enemy.GoldReward);
                         Item? drop = enemy.GetDrop(_random);
@@ -238,6 +238,7 @@ namespace DungeonBattleConsoleGame.Controllers
                 _view.ShowHeroDefeated(hero);
             }
 
+            _view.ShowEnemyDefeatStatistics(gameSession);
             _view.ShowBattleResultScreen(hero);
             _view.ReadInput();
         }
@@ -316,6 +317,11 @@ namespace DungeonBattleConsoleGame.Controllers
                 {
                     saveData.EquippedItemIndex = i;
                 }
+            }
+
+            foreach (string enemyName in gameSession.GetDefeatedEnemyNames())
+            {
+                saveData.DefeatedEnemies[enemyName] = gameSession.GetDefeatedEnemyCount(enemyName);
             }
 
             return saveData;
@@ -404,7 +410,16 @@ namespace DungeonBattleConsoleGame.Controllers
                 return null;
             }
 
-            return new GameSession(hero, enemy, gameSaveData.Round);
+            GameSession gameSession = new GameSession(hero, enemy, gameSaveData.Round);
+
+            foreach (string enemyName in gameSaveData.DefeatedEnemies.Keys)
+            {
+                int count = gameSaveData.DefeatedEnemies[enemyName];
+
+                gameSession.RestoreEnemyDefeatCount(enemyName, count);
+            }
+
+            return gameSession;
         }
         private GameSession? LoadGameFromFile()
         {

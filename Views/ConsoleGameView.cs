@@ -1,4 +1,5 @@
 ﻿using DungeonBattleConsoleGame.Models.Characters;
+using DungeonBattleConsoleGame.Models.Game;
 using DungeonBattleConsoleGame.Models.Items;
 
 namespace DungeonBattleConsoleGame.Views
@@ -210,9 +211,18 @@ namespace DungeonBattleConsoleGame.Views
             ShowHeroStatus(hero);
             ShowGameMessage("Натисніть Enter, щоб повернутися в головне меню");
         }
-        public void ShowGameSaved ()
+        public void ShowGameSaved()
         {
             AddBattleLog("Гру збережено. Повертаємось в головне меню.");
+        }
+        public void ShowEnemyDefeatStatistics(GameSession gameSession)
+        {
+            AddBattleLog("Переможені вороги: ");
+            foreach (string enemyName in gameSession.GetDefeatedEnemyNames())
+            {
+                int enemyCount = gameSession.GetDefeatedEnemyCount(enemyName);
+                AddBattleLog("- " + enemyName + ": " + enemyCount);
+            }
         }
     }
 }

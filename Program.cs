@@ -1,5 +1,4 @@
-﻿using DungeonBattleConsoleGame;
-using DungeonBattleConsoleGame.Controllers;
+﻿using DungeonBattleConsoleGame.Controllers;
 using DungeonBattleConsoleGame.Views;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;

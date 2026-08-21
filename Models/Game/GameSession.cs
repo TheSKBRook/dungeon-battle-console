@@ -7,6 +7,7 @@ namespace DungeonBattleConsoleGame.Models.Game
         public Hero Hero { get; }
         public Enemy CurrentEnemy { get; private set; }
         public int Round { get; private set; }
+        private Dictionary<string, int> _defeatedEnemies = new Dictionary<string, int>();
 
         public GameSession(Hero hero, Enemy enemy, int round)
         {
@@ -21,6 +22,30 @@ namespace DungeonBattleConsoleGame.Models.Game
         public void SetCurrentEnemy(Enemy enemy)
         {
             CurrentEnemy = enemy;
+        }
+        public void RegisterEnemyDefeat(string enemyName)
+        {
+            if (!_defeatedEnemies.ContainsKey(enemyName))
+            {
+                _defeatedEnemies.Add(enemyName, 0);
+            }
+            _defeatedEnemies[enemyName]++;
+        }
+        public int GetDefeatedEnemyCount(string enemyName)
+        {
+            if (_defeatedEnemies.ContainsKey(enemyName))
+            {
+                return _defeatedEnemies[enemyName];
+            }
+            return 0;
+        }
+        public IEnumerable<string> GetDefeatedEnemyNames()
+        {
+                return _defeatedEnemies.Keys;
+        }
+        public void RestoreEnemyDefeatCount(string enemyName, int count)
+        {
+            _defeatedEnemies[enemyName] = count;
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using DungeonBattleConsoleGame.Models.Characters;
 using DungeonBattleConsoleGame.Models.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DungeonBattleConsoleGame.Tests
 {
@@ -26,6 +21,6 @@ namespace DungeonBattleConsoleGame.Tests
             Assert.IsTrue(isEquiped);
             Assert.AreSame(sword, hero.EquippedItem);
             Assert.AreEqual(5, hero.AttackBonus);
-        }      
+        }
     }
 }
