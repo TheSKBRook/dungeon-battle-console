@@ -1,4 +1,5 @@
 ﻿using DungeonBattleConsoleGame.Models.Characters;
+using DungeonBattleConsoleGame.Models.Items;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DungeonBattleConsoleGame.Tests
@@ -54,6 +55,23 @@ namespace DungeonBattleConsoleGame.Tests
 
             // Asset
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => hero.Heal(-1));
+        }
+
+        [TestMethod]
+        public void EquipItem_WhenItemsIsNotEquippable_ReturnFalse()
+        {
+            // Arrange
+            Hero hero = new Hero("Тестовий герой");
+            HealthPotion potion = new HealthPotion("Тестове зілля", 5);
+
+            // Act
+            hero.AddItem(potion);
+            bool isEquiped = hero.EquipItem(potion);
+
+            //Assert
+            Assert.IsFalse(isEquiped);
+            Assert.IsNull(hero.EquippedItem);
+
         }
     }
 }
