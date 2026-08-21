@@ -73,5 +73,21 @@ namespace DungeonBattleConsoleGame.Tests
             Assert.IsNull(hero.EquippedItem);
 
         }
+
+        [DataTestMethod]
+        [DataRow(1, 99)]
+        [DataRow(20, 80)]
+        [DataRow(150, 0)]
+        public void TakeDamage_WhenDamageIsApplied_ReducesHealthWithoutGoingBelowZero(int damage, int expectedHealth)
+        {
+            // Arrange
+            Hero hero = new Hero("Тестовий герой");
+
+            // Act
+            hero.TakeDamage(damage);
+
+            // Assert
+            Assert.AreEqual(expectedHealth, hero.Health);
+        }
     }
 }
