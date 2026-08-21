@@ -1,6 +1,5 @@
 ﻿using DungeonBattleConsoleGame.Models.Characters;
 using DungeonBattleConsoleGame.Models.Items;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DungeonBattleConsoleGame.Tests
 {

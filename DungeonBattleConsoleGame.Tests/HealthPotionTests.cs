@@ -1,10 +1,5 @@
 ﻿using DungeonBattleConsoleGame.Models.Characters;
 using DungeonBattleConsoleGame.Models.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DungeonBattleConsoleGame.Tests
 {
@@ -41,7 +36,6 @@ namespace DungeonBattleConsoleGame.Tests
             // Assert
             Assert.AreEqual(5, restoredHealth);
             Assert.AreEqual(hero.MaxHealth, hero.Health);
-
         }
     }
 }

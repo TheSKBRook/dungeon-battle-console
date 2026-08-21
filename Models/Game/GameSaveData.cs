@@ -11,5 +11,6 @@
         public int EnemyHealth { get; set; }
         public List<ItemSaveData> Inventory { get; set; } = new List<ItemSaveData>();
         public int EquippedItemIndex { get; set; } = -1;
+        public Dictionary<string,int> DefeatedEnemies { get; set; } = new Dictionary<string,int>();
     }
 }

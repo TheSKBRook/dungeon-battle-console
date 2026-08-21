@@ -17,5 +17,4 @@ namespace DungeonBattleConsoleGame.Models.Characters
         }
         public abstract Enemy CreateNew();
     }
-
 }
