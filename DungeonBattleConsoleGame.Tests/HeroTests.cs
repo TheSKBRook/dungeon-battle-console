@@ -109,5 +109,25 @@ namespace DungeonBattleConsoleGame.Tests
             Assert.AreEqual(expectedDamage, fullDamage);
 
         }
+
+        [TestMethod]
+        public void EquipItem_WhenNewSwordIsEquipped_ReplacesPreviousAttackBonus()
+        {
+            // Arrange
+            Hero hero = new Hero("Тестовий герой");
+            Sword sword1 = new Sword("Тестовий меч 1", 5);
+            Sword sword2 = new Sword("Тестовий меч 2", 10);
+
+            hero.AddItem(sword1);
+            hero.AddItem(sword2);
+
+            // Act
+            hero.EquipItem(sword1);
+            hero.EquipItem(sword2);
+
+            // Assert
+            Assert.AreSame(sword2, hero.EquippedItem);
+            Assert.AreEqual(sword2.DamageBonus, hero.AttackBonus);
+        }
     }
 }
