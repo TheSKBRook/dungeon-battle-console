@@ -5,9 +5,11 @@ using DungeonBattleConsoleGame.Views;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+Random random = new Random();
 ConsoleGameView view = new ConsoleGameView();
 SaveGameService saveGameService = new SaveGameService();
-EnemyFactory enemyFactory = new EnemyFactory(new Random());
-GameController gameController = new GameController(view, saveGameService, enemyFactory);
+EnemyFactory enemyFactory = new EnemyFactory(random);
+BattleController battleController = new BattleController(view, saveGameService, enemyFactory, random);
+GameController gameController = new GameController(view, saveGameService, enemyFactory, battleController);
 
 gameController.Run();
