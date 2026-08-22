@@ -1,4 +1,5 @@
 ﻿using DungeonBattleConsoleGame.Enums;
+using DungeonBattleConsoleGame.Factories;
 using DungeonBattleConsoleGame.Models.Characters;
 using DungeonBattleConsoleGame.Models.Game;
 using DungeonBattleConsoleGame.Models.Items;
@@ -11,16 +12,13 @@ namespace DungeonBattleConsoleGame.Controllers
     {
         private readonly ConsoleGameView _view;
         private readonly Random _random = new Random();
-        private readonly List<Enemy> _enemyTemplates;
         private readonly SaveGameService _saveGameService;
-        public GameController(ConsoleGameView view, SaveGameService saveGameService)
+        private readonly EnemyFactory _enemyFactory; 
+        public GameController(ConsoleGameView view, SaveGameService saveGameService, EnemyFactory enemyFactory)
         {
             _view = view;
-            _enemyTemplates = new List<Enemy>();
             _saveGameService = saveGameService;
-
-            _enemyTemplates.Add(new Goblin("Гоблін", 50));
-            _enemyTemplates.Add(new Skeleton("Скелет", 30));
+            _enemyFactory = enemyFactory;
         }
         public void Run()
         {
@@ -45,7 +43,7 @@ namespace DungeonBattleConsoleGame.Controllers
                         StartNewGame();
                         break;
                     case GameMenuAction.LoadGame: // завантажити гру
-                        GameSession? loadedSession = _saveGameService.LoadGameFromFile(_enemyTemplates);
+                        GameSession? loadedSession = _saveGameService.LoadGameFromFile(_enemyFactory.EnemyTemplates);
                         if (loadedSession == null)
                         {
                             _view.ShowGameMessage("Немає збереження.\nНатисніть Enter, щоб продовжити");
@@ -222,7 +220,7 @@ namespace DungeonBattleConsoleGame.Controllers
                 }
                 if (hero.IsAlive() && !hasEscaped && !hasSaved)
                 {
-                    gameSession.SetCurrentEnemy(CreateRandomEnemy());
+                    gameSession.SetCurrentEnemy(_enemyFactory.CreateRandomEnemy());
 
                 }
             }
@@ -280,17 +278,10 @@ namespace DungeonBattleConsoleGame.Controllers
             hero.AddItem(new HealthPotion("Мале зілля здоров'я", 10));
             hero.AddItem(new Sword("Короткий Бронзовий меч", 5));
         }
-        private Enemy CreateRandomEnemy()
-        {
-            int templateIndex = _random.Next(0, _enemyTemplates.Count);
-            Enemy template = _enemyTemplates[templateIndex];
-
-            return template.CreateNew();
-        }
         private void StartNewGame()
         {
             Hero hero = new Hero(_view.GetHeroName());
-            Enemy enemy = CreateRandomEnemy();
+            Enemy enemy = _enemyFactory.CreateRandomEnemy();
 
             GameSession gameSession = new GameSession(hero, enemy, 1);
 
