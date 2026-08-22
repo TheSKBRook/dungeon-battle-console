@@ -7,8 +7,27 @@ namespace DungeonBattleConsoleGame.Views
 
     internal class ConsoleGameView
     {
-        private readonly List<string> _battleLog = new List<string>();
+        private readonly Queue<string> _battleLog = new Queue<string>();
         const int MaxBattleLogEntries = 5;
+        private void ShowCenteredText(string text)
+        {
+            int width = (Console.WindowWidth - text.Length) / 2;
+
+            if (width < 0)
+            {
+                width = 0;
+            }
+            Console.SetCursorPosition(width, Console.CursorTop);
+
+            Console.WriteLine(text);
+        }
+        private void ShowBattleLog()
+        {
+            foreach (string message in _battleLog)
+            {
+                ShowGameMessage(message);
+            }
+        }
         public void ShowGameTitle()
         {
             ShowCenteredText("=== Битва в підземеллі ===");
@@ -164,21 +183,9 @@ namespace DungeonBattleConsoleGame.Views
         {
             if (_battleLog.Count >= MaxBattleLogEntries)
             {
-                _battleLog.RemoveAt(0);
+                _battleLog.Dequeue();
             }
-            _battleLog.Add(message);
-        }
-        private void ShowCenteredText(string text)
-        {
-            int width = (Console.WindowWidth - text.Length) / 2;
-
-            if (width < 0)
-            {
-                width = 0;
-            }
-            Console.SetCursorPosition(width, Console.CursorTop);
-
-            Console.WriteLine(text);
+            _battleLog.Enqueue(message);
         }
         public void ShowBattleScreen(Hero hero, Enemy enemy, int round)
         {
@@ -195,13 +202,6 @@ namespace DungeonBattleConsoleGame.Views
             Console.Clear();
             ShowGameTitle();
             ShowMainMenu();
-        }
-        private void ShowBattleLog()
-        {
-            for (int i = 0; i < _battleLog.Count; i++)
-            {
-                ShowGameMessage(_battleLog[i]);
-            }
         }
         public void ShowBattleResultScreen(Hero hero)
         {
