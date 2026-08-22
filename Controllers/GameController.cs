@@ -12,7 +12,7 @@ namespace DungeonBattleConsoleGame.Controllers
     {
         private readonly ConsoleGameView _view;
         private readonly SaveGameService _saveGameService;
-        private readonly EnemyFactory _enemyFactory; 
+        private readonly EnemyFactory _enemyFactory;
         private readonly BattleController _battleController;
         public GameController(ConsoleGameView view, SaveGameService saveGameService, EnemyFactory enemyFactory, BattleController battleController)
         {

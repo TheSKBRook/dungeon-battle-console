@@ -22,7 +22,6 @@ namespace DungeonBattleConsoleGame.Controllers
             _enemyFactory = enemyFactory;
             _random = random;
         }
-
         public void RunBattle(GameSession gameSession)
         {
 
