@@ -2,8 +2,8 @@
 using DungeonBattleConsoleGame.Models.Characters;
 using DungeonBattleConsoleGame.Models.Game;
 using DungeonBattleConsoleGame.Models.Items;
+using DungeonBattleConsoleGame.Services;
 using DungeonBattleConsoleGame.Views;
-using System.Text.Json;
 
 namespace DungeonBattleConsoleGame.Controllers
 {
@@ -12,10 +12,12 @@ namespace DungeonBattleConsoleGame.Controllers
         private readonly ConsoleGameView _view;
         private readonly Random _random = new Random();
         private readonly List<Enemy> _enemyTemplates;
-        public GameController(ConsoleGameView view)
+        private readonly SaveGameService _saveGameService;
+        public GameController(ConsoleGameView view, SaveGameService saveGameService)
         {
             _view = view;
             _enemyTemplates = new List<Enemy>();
+            _saveGameService = saveGameService;
 
             _enemyTemplates.Add(new Goblin("Гоблін", 50));
             _enemyTemplates.Add(new Skeleton("Скелет", 30));
@@ -43,7 +45,7 @@ namespace DungeonBattleConsoleGame.Controllers
                         StartNewGame();
                         break;
                     case GameMenuAction.LoadGame: // завантажити гру
-                        GameSession? loadedSession = LoadGameFromFile();
+                        GameSession? loadedSession = _saveGameService.LoadGameFromFile(_enemyTemplates);
                         if (loadedSession == null)
                         {
                             _view.ShowGameMessage("Немає збереження.\nНатисніть Enter, щоб продовжити");
@@ -178,7 +180,7 @@ namespace DungeonBattleConsoleGame.Controllers
                             }
                         case PlayerAction.SaveAndExit: // зберегти і вийти
                             hasSaved = true;
-                            SaveGameToFile(gameSession);
+                            _saveGameService.SaveGameToFile(gameSession);
                             break;
                         default:
                             _view.AddBattleLog("\nНевірна дія. Спробуйте ще раз.");
@@ -298,157 +300,6 @@ namespace DungeonBattleConsoleGame.Controllers
             hero.AddItem(new Sword("Довгий Бронзовий меч", 10));
 
             RunBattle(gameSession);
-        }
-        private GameSaveData CreateSaveData(GameSession gameSession)
-        {
-            GameSaveData saveData = new GameSaveData();
-            saveData.HeroName = gameSession.Hero.Name;
-            saveData.HeroHealth = gameSession.Hero.Health;
-            saveData.HeroGold = gameSession.Hero.Gold;
-            saveData.Round = gameSession.Round;
-            saveData.EnemyType = gameSession.CurrentEnemy.GetType().Name;
-            saveData.EnemyHealth = gameSession.CurrentEnemy.Health;
-            saveData.EnemyName = gameSession.CurrentEnemy.Name;
-
-            for (int i = 0; gameSession.Hero.Inventory.Count > i; i++)
-            {
-                saveData.Inventory.Add(CreateItemSaveData(gameSession.Hero.Inventory[i]));
-                if (gameSession.Hero.Inventory[i] == gameSession.Hero.EquippedItem)
-                {
-                    saveData.EquippedItemIndex = i;
-                }
-            }
-
-            foreach (string enemyName in gameSession.GetDefeatedEnemyNames())
-            {
-                saveData.DefeatedEnemies[enemyName] = gameSession.GetDefeatedEnemyCount(enemyName);
-            }
-
-            return saveData;
-        }
-        private ItemSaveData CreateItemSaveData(Item item)
-        {
-            ItemSaveData saveData = new ItemSaveData();
-            saveData.ItemType = item.GetType().Name;
-            saveData.ItemName = item.Name;
-            if (item is HealthPotion)
-            {
-                HealthPotion potion = (HealthPotion)item;
-                saveData.Amount = potion.HealAmount;
-            }
-            else if (item is Sword)
-            {
-                Sword sword = (Sword)item;
-                saveData.Amount = sword.DamageBonus;
-            }
-
-            return saveData;
-        }
-        private void SaveGameToFile(GameSession gameSession)
-        {
-            GameSaveData gameSave = CreateSaveData(gameSession);
-            string json = JsonSerializer.Serialize(gameSave);
-
-            string filePath = Path.Combine(AppContext.BaseDirectory, "save.json");
-            File.WriteAllText(filePath, json);
-        }
-        private Hero CreateHeroFromSaveData(GameSaveData gameSaveData)
-        {
-            Hero hero = new Hero(gameSaveData.HeroName, gameSaveData.HeroHealth, gameSaveData.HeroGold);
-
-            for (int i = 0; i < gameSaveData.Inventory.Count; i++)
-            {
-                Item? item = CreateItemFromSaveData(gameSaveData.Inventory[i]);
-                if (item != null)
-                {
-                    hero.AddItem(item);
-                }
-
-            }
-            if (gameSaveData.EquippedItemIndex >= 0 && gameSaveData.EquippedItemIndex < hero.Inventory.Count)
-            {
-                hero.EquipItem(hero.Inventory[gameSaveData.EquippedItemIndex]);
-            }
-
-            return hero;
-        }
-        private Enemy? CreateEnemyFromSaveData(GameSaveData gameSaveData)
-        {
-
-            for (int i = 0; i < _enemyTemplates.Count; i++)
-            {
-                if (gameSaveData.EnemyType == _enemyTemplates[i].GetType().Name)
-                {
-                    Enemy enemy = _enemyTemplates[i].CreateNew();
-                    enemy.TakeDamage(enemy.MaxHealth - gameSaveData.EnemyHealth);
-                    return enemy;
-                }
-            }
-            return null;
-        }
-        private Item? CreateItemFromSaveData(ItemSaveData itemSaveData)
-        {
-            if (itemSaveData.ItemType == nameof(HealthPotion))
-            {
-                return new HealthPotion(itemSaveData.ItemName, itemSaveData.Amount);
-            }
-
-            if (itemSaveData.ItemType == nameof(Sword))
-            {
-                return new Sword(itemSaveData.ItemName, itemSaveData.Amount);
-            }
-
-            return null;
-        }
-        private GameSession? CreateGameSessionFromSaveData(GameSaveData gameSaveData)
-        {
-            Hero hero = CreateHeroFromSaveData(gameSaveData);
-            Enemy? enemy = CreateEnemyFromSaveData(gameSaveData);
-
-            if (enemy == null)
-            {
-                return null;
-            }
-
-            GameSession gameSession = new GameSession(hero, enemy, gameSaveData.Round);
-
-            foreach (string enemyName in gameSaveData.DefeatedEnemies.Keys)
-            {
-                int count = gameSaveData.DefeatedEnemies[enemyName];
-
-                gameSession.RestoreEnemyDefeatCount(enemyName, count);
-            }
-
-            return gameSession;
-        }
-        private GameSession? LoadGameFromFile()
-        {
-            string filePath = Path.Combine(AppContext.BaseDirectory, "save.json");
-            if (!File.Exists(filePath))
-            {
-                return null;
-            }
-
-            try
-            {
-                string json = File.ReadAllText(filePath);
-                GameSaveData? gameSaveData = JsonSerializer.Deserialize<GameSaveData>(json);
-
-                if (gameSaveData == null)
-                {
-                    return null;
-                }
-                return CreateGameSessionFromSaveData(gameSaveData);
-
-            }
-            catch (IOException)
-            {
-                return null;
-            }
-            catch (JsonException)
-            {
-                return null;
-            }
         }
     }
 }
