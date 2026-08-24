@@ -241,8 +241,8 @@ namespace DungeonBattleConsoleGame.Views
             }
             foreach (string enemyName in gameSession.GetEncounteredEnemyNames())
             {
-                
-                ShowGameMessage($"- {enemyName}");
+                int count = gameSession.GetDefeatedEnemyCount(enemyName);
+                ShowGameMessage($"- {enemyName}. Переможено: {count}");
             }
         }
     }
