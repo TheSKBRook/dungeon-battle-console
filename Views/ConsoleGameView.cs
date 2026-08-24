@@ -234,15 +234,14 @@ namespace DungeonBattleConsoleGame.Views
             Console.Clear();
             ShowGameTitle();
             ShowGameMessage("Бестіарій:");
-            if (!gameSession.GetEncounteredEnemyNames().Any())
+            if (!gameSession.GetBestiaryEntries().Any())
             {
                 ShowGameMessage("Немає записів.");
                 return;
             }
-            foreach (string enemyName in gameSession.GetEncounteredEnemyNames())
+            foreach (BestiaryEntry entry in gameSession.GetBestiaryEntries())
             {
-                int count = gameSession.GetDefeatedEnemyCount(enemyName);
-                ShowGameMessage($"- {enemyName}. Переможено: {count}");
+                ShowGameMessage($"- {entry.EnemyName}. Переможено: {entry.DefeatCount}");
             }
         }
     }
