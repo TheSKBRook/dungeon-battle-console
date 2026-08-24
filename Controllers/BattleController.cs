@@ -41,15 +41,14 @@ namespace DungeonBattleConsoleGame.Controllers
 
             Hero hero = gameSession.Hero;
 
+            gameSession.NewEnemyEncountered += _view.ShowNewBestiaryEntry;
+
             while (hero.IsAlive() && !hasEscaped && !hasSaved)
             {
                 Enemy enemy = gameSession.CurrentEnemy;
                 _view.ShowEnemyAppeared(enemy);
-                
-                if (gameSession.RegisterEncounteredEnemy(enemy.Name))
-                {
-                    _view.ShowNewBestiaryEntry(enemy);
-                }
+
+                gameSession.RegisterEncounteredEnemy(enemy.Name);
 
                 while (hero.IsAlive() && enemy.IsAlive())
                 {
@@ -190,6 +189,8 @@ namespace DungeonBattleConsoleGame.Controllers
 
                 }
             }
+
+            gameSession.NewEnemyEncountered -= _view.ShowNewBestiaryEntry;
 
             if (hasSaved)
             {

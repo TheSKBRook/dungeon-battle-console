@@ -225,9 +225,9 @@ namespace DungeonBattleConsoleGame.Views
                 AddBattleLog("- " + enemyName + ": " + enemyCount);
             }
         }
-        public void ShowNewBestiaryEntry(Enemy enemy)
+        public void ShowNewBestiaryEntry(string enemyName)
         {
-            AddBattleLog($"Новий запис у бестіарії: {enemy.Name}");
+            AddBattleLog($"Новий запис у бестіарії: {enemyName}");
         }
         public void ShowBestiaryScreen(GameSession gameSession)
         {
