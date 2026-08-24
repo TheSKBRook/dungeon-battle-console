@@ -60,5 +60,9 @@ namespace DungeonBattleConsoleGame.Models.Game
         {
             return _encounteredEnemies;
         }
+        public IEnumerable<BestiaryEntry> GetBestiaryEntries()
+        {
+            return _encounteredEnemies.Select(enemyName => new BestiaryEntry(enemyName, GetDefeatedEnemyCount(enemyName)));
+        }
     } 
 }

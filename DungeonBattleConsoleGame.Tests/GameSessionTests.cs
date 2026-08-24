@@ -67,5 +67,23 @@ namespace DungeonBattleConsoleGame.Tests
             Assert.IsTrue(test1);
             Assert.IsFalse(test2);
         }
+        [TestMethod]
+        public void GetBestiaryEntries_WhenEnemyEncounteredAndDefeated_ReturnsEntryWithDefeatCount()
+        {
+            // Arrange
+            Hero hero = new Hero("test hero");
+            Goblin goblin = new Goblin("Гоблін", 20);
+            GameSession gameSession = new GameSession(hero, goblin, 1);
+
+            // Act
+            gameSession.RegisterEncounteredEnemy("Гоблін");
+            gameSession.RegisterEnemyDefeat("Гоблін");
+            gameSession.RegisterEnemyDefeat("Гоблін");
+            List<BestiaryEntry> entries = gameSession.GetBestiaryEntries().ToList();
+
+            // Assert
+            Assert.AreEqual(1, entries.Count);
+            Assert.AreEqual(new BestiaryEntry("Гоблін", 2), entries[0]);
+        }
     }
 }
