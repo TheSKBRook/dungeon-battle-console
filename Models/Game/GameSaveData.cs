@@ -1,4 +1,6 @@
-﻿namespace DungeonBattleConsoleGame.Models.Game
+﻿using System.Reflection.Metadata;
+
+namespace DungeonBattleConsoleGame.Models.Game
 {
     internal class GameSaveData
     {
@@ -12,5 +14,6 @@
         public List<ItemSaveData> Inventory { get; set; } = new List<ItemSaveData>();
         public int EquippedItemIndex { get; set; } = -1;
         public Dictionary<string,int> DefeatedEnemies { get; set; } = new Dictionary<string,int>();
+        public HashSet<string> EncounteredEnemies { get; set; } = new HashSet<string>();
     }
 }

@@ -8,6 +8,7 @@
         Escape = 4,
         UseItem = 5,
         EquipItem = 6,
-        SaveAndExit = 7
+        SaveAndExit = 7,
+        ShowBestiary =8
     }
 }

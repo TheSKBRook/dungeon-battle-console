@@ -32,6 +32,11 @@ namespace DungeonBattleConsoleGame.Services
                 saveData.DefeatedEnemies[enemyName] = gameSession.GetDefeatedEnemyCount(enemyName);
             }
 
+            foreach (string enemyName in gameSession.GetEncounteredEnemyNames())
+            {
+                saveData.EncounteredEnemies.Add(enemyName);
+            }
+
             return saveData;
         }
         private ItemSaveData CreateItemSaveData(Item item)
@@ -125,6 +130,11 @@ namespace DungeonBattleConsoleGame.Services
                 int count = gameSaveData.DefeatedEnemies[enemyName];
 
                 gameSession.RestoreEnemyDefeatCount(enemyName, count);
+            }
+
+            foreach (string enemyName in gameSaveData.EncounteredEnemies)
+            {
+                gameSession.RegisterEncounteredEnemy(enemyName);
             }
 
             return gameSession;

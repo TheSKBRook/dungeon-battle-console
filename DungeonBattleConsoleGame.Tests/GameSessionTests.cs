@@ -50,7 +50,22 @@ namespace DungeonBattleConsoleGame.Tests
 
             // Assert
             Assert.AreEqual(3, enemyCount);
+        }
+        [TestMethod]
+        public void RegisterEncounteredEnemy_WhenSameEnemyRegisterTwice_ReturnTrueThenFalse()
+        {
+            // Arrange
+            Hero hero = new Hero("Test Hero");
+            Goblin goblin = new Goblin("Гоблін", 10);
+            GameSession gameSession = new GameSession(hero, goblin, 1);
 
+            // Act
+            bool test1 = gameSession.RegisterEncounteredEnemy("Гоблін");
+            bool test2 = gameSession.RegisterEncounteredEnemy("Гоблін");
+
+            // Assert
+            Assert.IsTrue(test1);
+            Assert.IsFalse(test2);
         }
     }
 }

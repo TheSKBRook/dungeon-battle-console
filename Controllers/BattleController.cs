@@ -45,6 +45,11 @@ namespace DungeonBattleConsoleGame.Controllers
             {
                 Enemy enemy = gameSession.CurrentEnemy;
                 _view.ShowEnemyAppeared(enemy);
+                
+                if (gameSession.RegisterEncounteredEnemy(enemy.Name))
+                {
+                    _view.ShowNewBestiaryEntry(enemy);
+                }
 
                 while (hero.IsAlive() && enemy.IsAlive())
                 {
@@ -136,6 +141,11 @@ namespace DungeonBattleConsoleGame.Controllers
                             hasSaved = true;
                             _saveGameService.SaveGameToFile(gameSession);
                             break;
+                        case PlayerAction.ShowBestiary: // подивитись бестіарій
+                            _view.ShowBestiaryScreen(gameSession);
+                            _view.ShowGameMessage("Натисніть Enter щоб продовжити");
+                            _view.ReadInput();
+                            continue;
                         default:
                             _view.AddBattleLog("\nНевірна дія. Спробуйте ще раз.");
                             continue;
