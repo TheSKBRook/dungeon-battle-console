@@ -56,5 +56,9 @@ namespace DungeonBattleConsoleGame.Models.Game
             }
             return false;
         }
+        public IEnumerable<string> GetEncounteredEnemyNames()
+        {
+            return _encounteredEnemies;
+        }
     } 
 }

@@ -91,7 +91,8 @@ namespace DungeonBattleConsoleGame.Views
         public void ShowActionMenu()
         {
             ShowGameMessage("\nДоступні дії:\n1 - атакувати\n2 - лікуватися\n3 - показати статус" +
-                                      "\n4 - втекти\n5 - використати предмет\n6 - екіпірувати предмет\n7 - зберегти та повернутися в меню");
+                                      "\n4 - втекти\n5 - використати предмет\n6 - екіпірувати предмет\n" +
+                                      "7 - зберегти та повернутися в меню\n8 - бестіарій");
         }
         public string GetHeroName()
         {
@@ -222,6 +223,26 @@ namespace DungeonBattleConsoleGame.Views
             {
                 int enemyCount = gameSession.GetDefeatedEnemyCount(enemyName);
                 AddBattleLog("- " + enemyName + ": " + enemyCount);
+            }
+        }
+        public void ShowNewBestiaryEntry(Enemy enemy)
+        {
+            AddBattleLog($"Новий запис у бестіарії: {enemy.Name}");
+        }
+        public void ShowBestiaryScreen(GameSession gameSession)
+        {
+            Console.Clear();
+            ShowGameTitle();
+            ShowGameMessage("Бестіарій:");
+            if (!gameSession.GetEncounteredEnemyNames().Any())
+            {
+                ShowGameMessage("Немає записів.");
+                return;
+            }
+            foreach (string enemyName in gameSession.GetEncounteredEnemyNames())
+            {
+                
+                ShowGameMessage($"- {enemyName}");
             }
         }
     }
