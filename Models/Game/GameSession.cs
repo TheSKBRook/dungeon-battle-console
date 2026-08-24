@@ -9,7 +9,7 @@ namespace DungeonBattleConsoleGame.Models.Game
         public int Round { get; private set; }
         private Dictionary<string, int> _defeatedEnemies = new Dictionary<string, int>();
         private readonly HashSet<string> _encounteredEnemies = new HashSet<string>();
-
+        public Action<string>? NewEnemyEncountered;
         public GameSession(Hero hero, Enemy enemy, int round)
         {
             Hero = hero;
@@ -52,6 +52,7 @@ namespace DungeonBattleConsoleGame.Models.Game
         {
             if (_encounteredEnemies.Add(enemyName))
             {
+                NewEnemyEncountered?.Invoke(enemyName);
                 return true;
             }
             return false;

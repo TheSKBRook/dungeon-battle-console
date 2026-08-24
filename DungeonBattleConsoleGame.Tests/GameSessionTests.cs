@@ -85,5 +85,39 @@ namespace DungeonBattleConsoleGame.Tests
             Assert.AreEqual(1, entries.Count);
             Assert.AreEqual(new BestiaryEntry("Гоблін", 2), entries[0]);
         }
+        [TestMethod]
+        public void RegisterEncounteredEnemy_WhenNewEnemyAdded_RaisesEventWithEnemyName()
+        {
+            // Arrange
+            Hero hero = new Hero("test hero");
+            Goblin goblin = new Goblin("Гоблін", 20);
+            GameSession gameSession = new GameSession(hero, goblin, 1);
+            string? raisedEnemyName = null;
+            gameSession.NewEnemyEncountered += enemyName => raisedEnemyName = enemyName;
+
+            // Act
+            gameSession.RegisterEncounteredEnemy("Гоблін");
+
+            // Assert
+            Assert.AreEqual("Гоблін", raisedEnemyName);
+        }
+        [TestMethod]
+        public void RegisterEncounteredEnemy_WhenSameEnemyAddedTwice_RaisesEventOnce()
+        {
+            // Arrange
+            Hero hero = new Hero("test hero");
+            Goblin goblin = new Goblin("Гоблін", 20);
+            GameSession gameSession = new GameSession(hero, goblin, 1);
+            int eventCallCount = 0;
+            gameSession.NewEnemyEncountered += enemyName => eventCallCount++;
+
+            // Act
+            gameSession.RegisterEncounteredEnemy("Гоблін");
+            gameSession.RegisterEncounteredEnemy("Гоблін");
+
+            // Assert
+            Assert.AreEqual(1, eventCallCount);
+
+        }
     }
 }
