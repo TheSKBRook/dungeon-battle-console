@@ -30,12 +30,9 @@ namespace DungeonBattleConsoleGame.Controllers
             int enemyDamage;
             int healAmount;
             int healedAmount;
-            int heroBaseDamage;
-            int heroDamage;
 
             string? action;
 
-            bool isCritical;
             bool hasEscaped = false;
             bool hasSaved = false;
 
@@ -52,8 +49,9 @@ namespace DungeonBattleConsoleGame.Controllers
 
                 while (hero.IsAlive() && enemy.IsAlive())
                 {
-                    heroBaseDamage = hero.GetBaseDamage(_random);
-                    heroDamage = hero.GetFullDamage(heroBaseDamage);
+
+                    var (heroDamage, isCritical) = CalculateHeroAttack(hero);
+
                     enemyDamage = enemy.GetDamage(_random);
                     healAmount = GenerateHealAmount();
                     _view.ShowBattleScreen(gameSession.Hero, gameSession.CurrentEnemy, gameSession.Round);
@@ -69,16 +67,9 @@ namespace DungeonBattleConsoleGame.Controllers
 
                     PlayerAction playerAction = (PlayerAction)actionNumber;
 
-                    isCritical = heroBaseDamage >= 18;
-
                     switch (playerAction)
                     {
                         case PlayerAction.Attack: // Атака
-
-                            if (isCritical)
-                            {
-                                heroDamage = heroDamage * 2;
-                            }
                             hero.Attack(enemy, heroDamage);
                             _view.ShowHeroAttack(hero, enemy, heroDamage, isCritical);
                             break;
@@ -225,6 +216,19 @@ namespace DungeonBattleConsoleGame.Controllers
             }
 
             return availableItems[itemIndex];
+        }
+        private (int Damage, bool IsCritical) CalculateHeroAttack(Hero hero)
+        {
+            int baseDamage = hero.GetBaseDamage(_random);
+            bool isCritical = baseDamage >= 18;
+            int damage = hero.GetFullDamage(baseDamage);
+
+            if (isCritical)
+            {
+                damage *= 2;
+            }
+
+            return (damage, isCritical);
         }
     }
 }
