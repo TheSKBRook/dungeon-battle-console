@@ -79,12 +79,12 @@ namespace DungeonBattleConsoleGame.Views
                 ShowGameMessage("- " + item.Name);
             }
         }
-        public void ShowNumberedInventory(Hero hero)
+        public void ShowNumberedInventory(IReadOnlyList<Item> items)
         {
             int itemNumber = 1;
-            foreach (string item in hero.GetInventoryItemNames())
+            foreach (Item item in items)
             {
-                ShowGameMessage(itemNumber + ". " + item);
+                ShowGameMessage(itemNumber + ". " + item.Name);
                 itemNumber++;
             }
         }

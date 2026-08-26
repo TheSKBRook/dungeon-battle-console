@@ -95,45 +95,30 @@ namespace DungeonBattleConsoleGame.Controllers
                             hasEscaped = true;
                             break;
                         case PlayerAction.UseItem: // Використати предмет
-
-                            Item? item = SelectInventoryItem(hero);
-
+                            Item? item = SelectInventoryItem(hero, candidate => candidate is IUsable);
                             if (item == null)
                             {
                                 continue;
                             }
-                            if (item is IUsable)
-                            {
-                                int restored = hero.UseItem(item);
-                                _view.ShowUsedItem(hero, item);
-                                _view.ShowHealedAmount(hero, restored);
-                                break;
-                            }
-                            _view.AddBattleLog("\n" + item.Name + " не можна використати.");
-                            continue;
+                            int restored = hero.UseItem(item);
+                            _view.ShowUsedItem(hero, item);
+                            _view.ShowHealedAmount(hero, restored);
+                            break;
                         case PlayerAction.EquipItem: // Екіпірувати предмет
-                            Item? selectedItem = SelectInventoryItem(hero);
+                            Item? selectedItem = SelectInventoryItem(hero, candidate => candidate is IEquippable);
                             if (selectedItem == null)
                             {
                                 continue;
                             }
-                            if (selectedItem is IEquippable)
+                            bool isEquipped = hero.EquipItem(selectedItem);
+                            if (isEquipped)
                             {
-                                bool isEquipped = hero.EquipItem(selectedItem);
-                                if (isEquipped)
-                                {
-                                    _view.ShowEquippedItem(hero, selectedItem);
-                                    break;
-                                }
-                                else
-                                {
-                                    _view.AddBattleLog("\n" + selectedItem.Name + " вже екіпірований або не можна екіпірувати.");
-                                    continue;
-                                }
+                                _view.ShowEquippedItem(hero, selectedItem);
+                                break;
                             }
                             else
                             {
-                                _view.AddBattleLog("\n" + selectedItem.Name + " не можна екіпірувати.");
+                                _view.AddBattleLog("\n" + selectedItem.Name + " вже екіпірований або не можна екіпірувати.");
                                 continue;
                             }
                         case PlayerAction.SaveAndExit: // зберегти і вийти
@@ -213,14 +198,16 @@ namespace DungeonBattleConsoleGame.Controllers
         {
             return _random.Next(5, 12 + 1);
         }
-        private Item? SelectInventoryItem(Hero hero)
+        private Item? SelectInventoryItem(Hero hero, Func<Item, bool> filter)
         {
-            if (hero.Inventory.Count == 0)
+            List<Item> availableItems = hero.Inventory.Where(filter).ToList();
+
+            if (availableItems.Count == 0)
             {
-                _view.AddBattleLog("Інвентар порожній.");
+                _view.AddBattleLog("Немає відповідних предметів");
                 return null;
             }
-            _view.ShowNumberedInventory(hero);
+            _view.ShowNumberedInventory(availableItems);
             _view.ShowGameMessage("Введіть номер предмету: ");
 
             string? inputNumber = _view.ReadInput();
@@ -231,13 +218,13 @@ namespace DungeonBattleConsoleGame.Controllers
                 return null;
             }
             int itemIndex = number - 1;
-            if (itemIndex < 0 || itemIndex >= hero.Inventory.Count)
+            if (itemIndex < 0 || itemIndex >= availableItems.Count)
             {
                 _view.AddBattleLog("Немає предмету з таким номером.");
                 return null;
             }
 
-            return hero.Inventory[itemIndex];
+            return availableItems[itemIndex];
         }
     }
 }
