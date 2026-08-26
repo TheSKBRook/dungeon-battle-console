@@ -104,5 +104,9 @@ namespace DungeonBattleConsoleGame.Models.Characters
         {
             return inventory.Select(item => item.Name);
         }
+        public IEnumerable<TItem> GetItemsOfType<TItem>() where TItem : Item
+        { 
+            return inventory.OfType<TItem>();
+        }
     }
 }

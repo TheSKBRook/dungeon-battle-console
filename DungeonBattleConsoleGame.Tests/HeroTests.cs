@@ -128,5 +128,22 @@ namespace DungeonBattleConsoleGame.Tests
             Assert.AreSame(sword2, hero.EquippedItem);
             Assert.AreEqual(sword2.DamageBonus, hero.AttackBonus);
         }
+        [TestMethod]
+        public void GetItemsOfType_WhenInventoryContainsDifferentTypes_ReturnsOnlyRequestedType()
+        {
+            // Arrange
+            Hero hero = new Hero("Test Hero");
+            HealthPotion healthPotion = new HealthPotion("Зілля", 10);
+            Sword sword = new Sword("Меч", 5);
+            hero.AddItem(healthPotion);
+            hero.AddItem(sword);
+
+            // Act
+            List<Sword> items = hero.GetItemsOfType<Sword>().ToList();
+
+            // Assert
+            Assert.AreEqual(1, items.Count);
+            Assert.AreSame(sword, items[0]);
+        }
     }
 }
