@@ -22,7 +22,7 @@ namespace DungeonBattleConsoleGame.Controllers
             _enemyFactory = enemyFactory;
             _random = random;
         }
-        public void RunBattle(GameSession gameSession)
+        public async Task RunBattleAsync(GameSession gameSession)
         {
 
             _view.ClearBattleLog();
@@ -123,7 +123,7 @@ namespace DungeonBattleConsoleGame.Controllers
                             }
                         case PlayerAction.SaveAndExit: // зберегти і вийти
                             hasSaved = true;
-                            _saveGameService.SaveGameToFile(gameSession);
+                            await _saveGameService.SaveGameToFileAsync(gameSession);
                             break;
                         case PlayerAction.ShowBestiary: // подивитись бестіарій
                             _view.ShowBestiaryScreen(gameSession);
