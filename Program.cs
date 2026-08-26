@@ -12,4 +12,4 @@ EnemyFactory enemyFactory = new EnemyFactory(random);
 BattleController battleController = new BattleController(view, saveGameService, enemyFactory, random);
 GameController gameController = new GameController(view, saveGameService, enemyFactory, battleController);
 
-gameController.Run();
+await gameController.RunAsync();

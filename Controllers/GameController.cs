@@ -21,7 +21,7 @@ namespace DungeonBattleConsoleGame.Controllers
             _enemyFactory = enemyFactory;
             _battleController = battleController;
         }
-        public void Run()
+        public async Task RunAsync()
         {
             bool isRunning = true;
 
@@ -41,10 +41,10 @@ namespace DungeonBattleConsoleGame.Controllers
                 switch (gameMenuAction)
                 {
                     case GameMenuAction.NewGame: // нова гра
-                        StartNewGame();
+                        await StartNewGameAsync();
                         break;
                     case GameMenuAction.LoadGame: // завантажити гру
-                        GameSession? loadedSession = _saveGameService.LoadGameFromFile(_enemyFactory.EnemyTemplates);
+                        GameSession? loadedSession = await _saveGameService.LoadGameFromFileAsync(_enemyFactory.EnemyTemplates);
                         if (loadedSession == null)
                         {
                             _view.ShowGameMessage("Немає збереження.\nНатисніть Enter, щоб продовжити");
@@ -54,7 +54,7 @@ namespace DungeonBattleConsoleGame.Controllers
                         else
                         {
                             _view.ShowGameMessage("Гру завантажено");
-                            _battleController.RunBattle(loadedSession);
+                            await _battleController.RunBattleAsync(loadedSession);
                             break;
                         }
                     case GameMenuAction.ExitGame: // вийти з гри
@@ -73,7 +73,7 @@ namespace DungeonBattleConsoleGame.Controllers
             hero.AddItem(new HealthPotion("Мале зілля здоров'я", 10));
             hero.AddItem(new Sword("Короткий Бронзовий меч", 5));
         }
-        private void StartNewGame()
+        private async Task StartNewGameAsync()
         {
             Hero hero = new Hero(_view.GetHeroName());
             Enemy enemy = _enemyFactory.CreateRandomEnemy();
@@ -85,7 +85,7 @@ namespace DungeonBattleConsoleGame.Controllers
             GiveStartingItems(hero);
             hero.AddItem(new Sword("Довгий Бронзовий меч", 10));
 
-            _battleController.RunBattle(gameSession);
+            await _battleController.RunBattleAsync(gameSession);
         }
     }
 }

@@ -57,13 +57,13 @@ namespace DungeonBattleConsoleGame.Services
 
             return saveData;
         }
-        public void SaveGameToFile(GameSession gameSession)
+        public async Task SaveGameToFileAsync(GameSession gameSession)
         {
             GameSaveData gameSave = CreateSaveData(gameSession);
             string json = JsonSerializer.Serialize(gameSave);
 
             string filePath = Path.Combine(AppContext.BaseDirectory, "save.json");
-            File.WriteAllText(filePath, json);
+            await File.WriteAllTextAsync(filePath, json);
         }
         private Hero CreateHeroFromSaveData(GameSaveData gameSaveData)
         {
@@ -139,7 +139,7 @@ namespace DungeonBattleConsoleGame.Services
 
             return gameSession;
         }
-        public GameSession? LoadGameFromFile(IReadOnlyList<Enemy> enemyTemplates)
+        public async Task<GameSession?> LoadGameFromFileAsync(IReadOnlyList<Enemy> enemyTemplates)
         {
             string filePath = Path.Combine(AppContext.BaseDirectory, "save.json");
             if (!File.Exists(filePath))
@@ -149,7 +149,7 @@ namespace DungeonBattleConsoleGame.Services
 
             try
             {
-                string json = File.ReadAllText(filePath);
+                string json = await File.ReadAllTextAsync(filePath);
                 GameSaveData? gameSaveData = JsonSerializer.Deserialize<GameSaveData>(json);
 
                 if (gameSaveData == null)
