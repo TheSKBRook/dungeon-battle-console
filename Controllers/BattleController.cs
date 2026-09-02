@@ -58,14 +58,11 @@ namespace DungeonBattleConsoleGame.Controllers
 
                     /* МЕНЮ */
 
-                    action = _view.ReadInput();
-                    if (!int.TryParse(action, out int actionNumber))
+                    if (!TryReadPlayerAction(out PlayerAction playerAction))
                     {
-                        _view.AddBattleLog("Введіть число для дії: ");
+                        _view.AddBattleLog("Невірна дія. Введіть число від 1 до 8");
                         continue;
                     }
-
-                    PlayerAction playerAction = (PlayerAction)actionNumber;
 
                     switch (playerAction)
                     {
@@ -229,6 +226,24 @@ namespace DungeonBattleConsoleGame.Controllers
             }
 
             return (damage, isCritical);
+        }
+        private bool TryReadPlayerAction(out PlayerAction playerAction)
+        {
+            string? input = _view.ReadInput();
+            playerAction = default;
+
+            if (!int.TryParse(input, out int actionNumber))
+            {
+                return false;
+            }
+
+            if(!Enum.IsDefined(typeof(PlayerAction), actionNumber))
+            {
+                return false;
+            }
+
+            playerAction = (PlayerAction)actionNumber;
+            return true;
         }
     }
 }
