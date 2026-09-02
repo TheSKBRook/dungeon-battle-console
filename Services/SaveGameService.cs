@@ -44,16 +44,12 @@ namespace DungeonBattleConsoleGame.Services
             ItemSaveData saveData = new ItemSaveData();
             saveData.ItemType = item.GetType().Name;
             saveData.ItemName = item.Name;
-            if (item is HealthPotion)
+            saveData.Amount = item switch
             {
-                HealthPotion potion = (HealthPotion)item;
-                saveData.Amount = potion.HealAmount;
-            }
-            else if (item is Sword)
-            {
-                Sword sword = (Sword)item;
-                saveData.Amount = sword.DamageBonus;
-            }
+                HealthPotion potion => potion.HealAmount,
+                Sword sword => sword.DamageBonus,
+                _ => 0
+            };
 
             return saveData;
         }
@@ -101,17 +97,12 @@ namespace DungeonBattleConsoleGame.Services
         }
         private Item? CreateItemFromSaveData(ItemSaveData itemSaveData)
         {
-            if (itemSaveData.ItemType == nameof(HealthPotion))
+            return itemSaveData.ItemType switch
             {
-                return new HealthPotion(itemSaveData.ItemName, itemSaveData.Amount);
-            }
-
-            if (itemSaveData.ItemType == nameof(Sword))
-            {
-                return new Sword(itemSaveData.ItemName, itemSaveData.Amount);
-            }
-
-            return null;
+                nameof(HealthPotion) => new HealthPotion(itemSaveData.ItemName, itemSaveData.Amount),
+                nameof(Sword) => new Sword(itemSaveData.ItemName, itemSaveData.Amount),
+                _ => null
+            };
         }
         private GameSession? CreateGameSessionFromSaveData(GameSaveData gameSaveData, IReadOnlyList<Enemy> enemyTemplates)
         {
