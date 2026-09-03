@@ -71,5 +71,44 @@ namespace DungeonBattleConsoleGame.Tests
                 }
             }
         }
+        [TestMethod]
+        public async Task LoadGameFromFileAsync_WhenFileDoesNotExist_ReturnsNull()
+        {
+            // Arrange
+            string filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".json");
+            SaveGameService saveGameService = new SaveGameService(filePath);
+            List<Enemy> enemyTemplates = new List<Enemy>();
+
+            // Act
+            GameSession? loadedSession = await saveGameService.LoadGameFromFileAsync(enemyTemplates);
+
+            // Assert
+            Assert.IsNull(loadedSession);
+        }
+        [TestMethod]
+        public async Task LoadGameFromFileAsync_WhenJsonIsInvalid_ReturnsNull()
+        {
+            // Arrange
+            string filePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".json");
+            SaveGameService saveGameService = new SaveGameService(filePath);
+            List<Enemy> enemyTemplates = new List<Enemy>();
+
+            try
+            {
+                // Act
+                await File.WriteAllTextAsync(filePath, "test");
+                GameSession? loadedSession = await saveGameService.LoadGameFromFileAsync(enemyTemplates);
+
+                // Assert
+                Assert.IsNull(loadedSession);
+            }
+            finally
+            {
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+        }
     }
 }
