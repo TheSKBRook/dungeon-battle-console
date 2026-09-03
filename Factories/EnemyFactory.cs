@@ -14,9 +14,11 @@ namespace DungeonBattleConsoleGame.Factories
         public EnemyFactory(Random random)
         {
             _random = random;
-            _enemyTemplates = new List<Enemy>();
-            _enemyTemplates.Add(new Goblin("Гоблін", 50));
-            _enemyTemplates.Add(new Skeleton("Скелет", 30));
+            _enemyTemplates = new List<Enemy>
+            {
+                new Goblin("Гоблін", 50),
+                new Skeleton("Скелет", 30)
+            };
         }
         public Enemy CreateRandomEnemy()
         {

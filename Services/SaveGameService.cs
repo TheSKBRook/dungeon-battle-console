@@ -14,14 +14,16 @@ namespace DungeonBattleConsoleGame.Services
         }
         private GameSaveData CreateSaveData(GameSession gameSession)
         {
-            GameSaveData saveData = new GameSaveData();
-            saveData.HeroName = gameSession.Hero.Name;
-            saveData.HeroHealth = gameSession.Hero.Health;
-            saveData.HeroGold = gameSession.Hero.Gold;
-            saveData.Round = gameSession.Round;
-            saveData.EnemyType = gameSession.CurrentEnemy.GetType().Name;
-            saveData.EnemyHealth = gameSession.CurrentEnemy.Health;
-            saveData.EnemyName = gameSession.CurrentEnemy.Name;
+            GameSaveData saveData = new GameSaveData
+            {
+                HeroName = gameSession.Hero.Name,
+                HeroHealth = gameSession.Hero.Health,
+                HeroGold = gameSession.Hero.Gold,
+                Round = gameSession.Round,
+                EnemyType = gameSession.CurrentEnemy.GetType().Name,
+                EnemyHealth = gameSession.CurrentEnemy.Health,
+                EnemyName = gameSession.CurrentEnemy.Name
+            };
 
             for (int i = 0; gameSession.Hero.Inventory.Count > i; i++)
             {
