@@ -34,10 +34,11 @@ namespace DungeonBattleConsoleGame.Models.Game
         }
         public int GetDefeatedEnemyCount(string enemyName)
         {
-            if (_defeatedEnemies.ContainsKey(enemyName))
+            if (_defeatedEnemies.TryGetValue(enemyName, out int count))
             {
-                return _defeatedEnemies[enemyName];
+                return count;
             }
+
             return 0;
         }
         public IEnumerable<string> GetDefeatedEnemyNames()
