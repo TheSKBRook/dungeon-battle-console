@@ -8,9 +8,10 @@ namespace DungeonBattleConsoleGame.Services
     internal class SaveGameService
     {
         private readonly string _filePath;
+        private const string SaveFileName = "save.json";
         public SaveGameService(string? filePath = null)
         {
-            _filePath = filePath ?? Path.Combine(AppContext.BaseDirectory, "save.json");
+            _filePath = filePath ?? Path.Combine(AppContext.BaseDirectory, SaveFileName);
         }
         private GameSaveData CreateSaveData(GameSession gameSession)
         {
