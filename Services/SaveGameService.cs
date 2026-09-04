@@ -49,14 +49,16 @@ namespace DungeonBattleConsoleGame.Services
         }
         private ItemSaveData CreateItemSaveData(Item item)
         {
-            ItemSaveData saveData = new ItemSaveData();
-            saveData.ItemType = item.GetType().Name;
-            saveData.ItemName = item.Name;
-            saveData.Amount = item switch
+            ItemSaveData saveData = new ItemSaveData
             {
-                HealthPotion potion => potion.HealAmount,
-                Sword sword => sword.DamageBonus,
-                _ => 0
+                ItemType = item.GetType().Name,
+                ItemName = item.Name,
+                Amount = item switch
+                {
+                    HealthPotion potion => potion.HealAmount,
+                    Sword sword => sword.DamageBonus,
+                    _ => 0
+                }
             };
 
             return saveData;

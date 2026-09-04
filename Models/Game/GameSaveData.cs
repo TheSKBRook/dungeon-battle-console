@@ -1,19 +1,17 @@
-﻿using System.Reflection.Metadata;
-
-namespace DungeonBattleConsoleGame.Models.Game
+﻿namespace DungeonBattleConsoleGame.Models.Game
 {
     internal class GameSaveData
     {
-        public string HeroName { get; set; } = "";
-        public int HeroHealth { get; set; }
-        public int HeroGold { get; set; }
-        public int Round { get; set; }
-        public string EnemyType { get; set; } = "";
-        public string EnemyName { get; set; } = "";
-        public int EnemyHealth { get; set; }
-        public List<ItemSaveData> Inventory { get; set; } = new List<ItemSaveData>();
+        public string HeroName { get; init; } = "";
+        public int HeroHealth { get; init; }
+        public int HeroGold { get; init; }
+        public int Round { get; init; }
+        public string EnemyType { get; init; } = "";
+        public string EnemyName { get; init; } = "";
+        public int EnemyHealth { get; init; }
+        public List<ItemSaveData> Inventory { get; init; } = new List<ItemSaveData>();
         public int EquippedItemIndex { get; set; } = -1;
-        public Dictionary<string,int> DefeatedEnemies { get; set; } = new Dictionary<string,int>();
-        public HashSet<string> EncounteredEnemies { get; set; } = new HashSet<string>();
+        public Dictionary<string,int> DefeatedEnemies { get; init; } = new Dictionary<string, int>();
+        public HashSet<string> EncounteredEnemies { get; init; } = new HashSet<string>();
     }
 }

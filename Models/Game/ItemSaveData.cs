@@ -2,8 +2,8 @@
 {
     internal class ItemSaveData
     {
-        public string ItemType { get; set; } = "";
-        public string ItemName { get; set; } = "";
-        public int Amount { get; set; } // кількість лікування для зілля або бонус атаки для меча.
+        public string ItemType { get; init; } = "";
+        public string ItemName { get; init; } = "";
+        public int Amount { get; init; } // кількість лікування для зілля або бонус атаки для меча.
     }
 }
