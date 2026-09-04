@@ -7,9 +7,9 @@ namespace DungeonBattleConsoleGame.Models.Game
         public Hero Hero { get; }
         public Enemy CurrentEnemy { get; private set; }
         public int Round { get; private set; }
-        private Dictionary<string, int> _defeatedEnemies = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _defeatedEnemies = new Dictionary<string, int>();
         private readonly HashSet<string> _encounteredEnemies = new HashSet<string>();
-        public Action<string>? NewEnemyEncountered;
+        public event Action<string>? NewEnemyEncountered;
         public GameSession(Hero hero, Enemy enemy, int round)
         {
             Hero = hero;
@@ -32,19 +32,12 @@ namespace DungeonBattleConsoleGame.Models.Game
             }
             _defeatedEnemies[enemyName]++;
         }
-        public int GetDefeatedEnemyCount(string enemyName)
-        {
-            if (_defeatedEnemies.TryGetValue(enemyName, out int count))
-            {
-                return count;
-            }
-
-            return 0;
-        }
-        public IEnumerable<string> GetDefeatedEnemyNames()
-        {
-                return _defeatedEnemies.Keys;
-        }
+        public int GetDefeatedEnemyCount(string enemyName) =>
+            _defeatedEnemies.TryGetValue(enemyName, out int count)
+            ? count
+            : 0;
+        public IEnumerable<string> GetDefeatedEnemyNames() => 
+            _defeatedEnemies.Keys;
         public void RestoreEnemyDefeatCount(string enemyName, int count)
         {
             _defeatedEnemies[enemyName] = count;
@@ -58,13 +51,9 @@ namespace DungeonBattleConsoleGame.Models.Game
             }
             return false;
         }
-        public IEnumerable<string> GetEncounteredEnemyNames()
-        {
-            return _encounteredEnemies;
-        }
-        public IEnumerable<BestiaryEntry> GetBestiaryEntries()
-        {
-            return _encounteredEnemies.Select(enemyName => new BestiaryEntry(enemyName, GetDefeatedEnemyCount(enemyName)));
-        }
-    } 
+        public IEnumerable<string> GetEncounteredEnemyNames() => 
+            _encounteredEnemies;
+        public IEnumerable<BestiaryEntry> GetBestiaryEntries() => 
+            _encounteredEnemies.Select(enemyName => new BestiaryEntry(enemyName, GetDefeatedEnemyCount(enemyName)));
+    }
 }
